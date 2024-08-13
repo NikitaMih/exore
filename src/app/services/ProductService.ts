@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IProduct, IProductResponse } from 'src/shared/models/IProduct';
 
 export const productApi = createApi({
   reducerPath: 'product',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com' }),
   tagTypes: ['Post', 'Put'],
   endpoints: builder => ({
-    getAllProducts: builder.query<IProductResponse, { count: number; sort: string }>({
+    getAllProducts: builder.query({
       query: ({ count, sort }) => ({
         url: '/products',
         params: {
@@ -17,7 +16,7 @@ export const productApi = createApi({
       }),
       providesTags: ['Post'],
     }),
-    getProductsBySearch: builder.query<IProductResponse, number>({
+    getProductsBySearch: builder.query({
       query: title => ({
         url: '/products/search',
         params: {
@@ -26,8 +25,7 @@ export const productApi = createApi({
       }),
       providesTags: ['Post'],
     }),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    getProductById: builder.query<IProduct, any>({
+    getProductById: builder.query({
       query: id => ({
         url: `/products/${id}`,
       }),

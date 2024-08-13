@@ -12,24 +12,24 @@ type EditFormType = {
   brand: string;
 };
 
-export const EditProduct = ({ product }: { product: IProduct }) => {
+export const EditProduct = ({ product }: { product?: IProduct }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [editProduct] = productApi.useEditProductMutation();
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
-      images: product?.images[0],
-      title: product?.title,
-      price: product?.price,
-      category: product?.category,
-      brand: product?.brand,
+      images: product?.images[0] || '',
+      title: product?.title || '',
+      price: product?.price || null,
+      category: product?.category || '',
+      brand: product?.brand || '',
     },
   });
 
   const handleCreateProduct = async (values: EditFormType) => {
     await editProduct({
       data: values,
-      id: product.id,
+      id: product?.id,
     });
     form.reset();
     close();
